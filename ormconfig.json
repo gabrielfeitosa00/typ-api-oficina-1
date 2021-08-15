@@ -1,0 +1,17 @@
+{
+  "type": "mysql",
+  "host": "localhost",
+  "port": 3306,
+  "username": "oficina1",
+  "password": "password",
+  "database": "typ",
+  "synchronize": false,
+  "logging": true,
+
+  "entities": ["src/models/*.ts", "dist/models/*.js"],
+  "migrations": ["src/database/migrations/*.ts"],
+  "subscribers": ["src/subscriber/**/*.ts"],
+  "cli": {
+    "migrationsDir": "src/database/migrations"
+  }
+}
