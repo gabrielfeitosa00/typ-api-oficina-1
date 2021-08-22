@@ -1,4 +1,4 @@
 export * from "./User";
 export * from "./Role";
 export * from "./Student";
-export * from "./course";
+export * from "./Course";
