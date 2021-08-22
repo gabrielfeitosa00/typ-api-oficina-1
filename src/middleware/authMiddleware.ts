@@ -3,16 +3,8 @@ import { Tokenpayload } from "../interfaces";
 import * as jwt from "jsonwebtoken";
 
 class AuthMiddleware {
-  public static check(_limitation?: any) {
+  public static check() {
     return async (request: Request, response: Response, next: NextFunction) => {
-      // await new Promise(() => {
-      //   setTimeout((resolve, _reject) => {
-      //     console.log("token checked");
-      //     resolve();
-      //   }, 800)
-      // })
-
-      // next();
       const { authorization } = request.headers;
       if (!authorization) {
         return response.sendStatus(401);

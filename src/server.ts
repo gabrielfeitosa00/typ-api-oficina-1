@@ -2,8 +2,6 @@ import express from "express";
 
 import cors from "cors";
 
-
-
 import { IncomingMessage, ServerResponse } from "http";
 
 class App {
@@ -11,24 +9,42 @@ class App {
 
   private port: number;
 
-
-
-  constructor(middlewares: (((req: cors.CorsRequest, res: { statusCode?: number | undefined; setHeader(key: string, value: string): any; end(): any; }, next: (err?: any) => any) => void) | ((req: IncomingMessage, res: ServerResponse, next: (err?: unknown) => void) => void))[], port: number) {
+  constructor(
+    routes: express.Router,
+    middlewares: (
+      | ((
+          req: cors.CorsRequest,
+          res: {
+            statusCode?: number | undefined;
+            setHeader(key: string, value: string): any;
+            end(): any;
+          },
+          next: (err?: any) => any
+        ) => void)
+      | ((
+          req: IncomingMessage,
+          res: ServerResponse,
+          next: (err?: unknown) => void
+        ) => void)
+    )[],
+    port: number
+  ) {
     this.app = express();
     this.app.use(cors());
     this.port = port;
 
-
     this.initGlobalMiddlewares(middlewares);
-
+    this.initRoutes(routes);
   }
-
-
 
   private initGlobalMiddlewares(middlewares: any[]) {
     middlewares.forEach((middleware: any) => {
       this.app.use(middleware);
     });
+  }
+
+  private initRoutes(routes: express.Router) {
+    this.app.use(routes);
   }
 
   public listen() {
