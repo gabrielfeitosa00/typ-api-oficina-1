@@ -13,13 +13,13 @@ class Course extends BaseEntity {
   @PrimaryGeneratedColumn("increment")
   id!: number;
 
-  @Column({ unique: true, type: "int" })
-  ra!: string;
+  @Column({ unique: true, type: "varchar" })
+  name!: string;
 
-  @Column({ type: "varchar", nullable: true, default: null })
-  phone?: string | null;
-  @Column({ type: "float" })
-  coeficient?: number | null;
+  @Column({ type: "text" })
+  description!: string;
+  @Column({ type: "varchar" })
+  shift!: string;
 
   @OneToMany(() => Student, (student) => student.course)
   student?: Student[];
