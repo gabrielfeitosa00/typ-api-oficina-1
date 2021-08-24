@@ -24,7 +24,7 @@ class User extends BaseEntity {
 
   @Column({ select: false, type: "varchar" })
   password!: string;
-  @ManyToOne(() => Role, (role) => role.user)
+  @ManyToOne(() => Role, (role) => role.user, { cascade: true })
   role!: Role;
   @OneToOne(() => Student, (student) => student.user)
   student?: User;
