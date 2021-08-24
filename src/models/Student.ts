@@ -21,11 +21,11 @@ class Student extends BaseEntity {
   @Column({ type: "varchar", nullable: true, default: null })
   phone?: string | null;
   @Column({ type: "float" })
-  coeficient?: number | null;
-  @ManyToOne(() => Course, (course) => course.student)
+  coefficient?: number | null;
+  @ManyToOne(() => Course, (course) => course.student, { cascade: true })
   @JoinColumn()
   course!: Course;
-  @OneToOne(() => User, (user) => user.student)
+  @OneToOne(() => User, (user) => user.student, { cascade: true })
   @JoinColumn()
   user!: User;
 }

@@ -10,10 +10,10 @@ class RoleMiddleware {
 
       try {
         user = await User.findOneOrFail(id, { relations: ["role"] });
-        let checkResultProfile = true;
+
         const checkResultUser = roles.includes(user.role.name);
 
-        if (checkResultUser || checkResultProfile) {
+        if (checkResultUser) {
           return next();
         } else {
           return res
@@ -21,9 +21,7 @@ class RoleMiddleware {
             .send("This user isn't authorized to see this route!");
         }
       } catch (error) {
-        {
-          return res.status(401).send("Unauthorized!");
-        }
+        return res.status(401).send("Unauthorized!");
       }
     };
   };
