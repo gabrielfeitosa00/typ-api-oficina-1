@@ -30,6 +30,7 @@ class App {
     port: number
   ) {
     this.app = express();
+    this.app.use(express.json());
     this.app.use(cors());
     this.port = port;
 

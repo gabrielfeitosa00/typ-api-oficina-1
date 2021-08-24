@@ -17,7 +17,8 @@ import { Role, Student } from "./";
 class User extends BaseEntity {
   @PrimaryGeneratedColumn("increment")
   id!: number;
-
+  @Column({ type: "varchar" })
+  name!: string;
   @Column({ unique: true, type: "varchar" })
   email!: string;
 

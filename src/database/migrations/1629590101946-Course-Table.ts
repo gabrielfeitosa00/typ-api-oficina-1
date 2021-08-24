@@ -19,7 +19,7 @@ export class CourseTable1629590101946 implements MigrationInterface {
           },
           {
             name: "description",
-            type: "varchar(45)",
+            type: "varchar(500)",
           },
           {
             name: "shift",
