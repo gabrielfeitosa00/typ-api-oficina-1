@@ -11,7 +11,7 @@ class Role extends BaseEntity {
   @PrimaryGeneratedColumn("increment")
   id!: number;
 
-  @Column({ type: "varchar" })
+  @Column({ type: "varchar", unique: true })
   name!: string;
 
   @Column({ type: "text" })
