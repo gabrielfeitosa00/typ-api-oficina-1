@@ -34,6 +34,23 @@ class StudentController {
       return res.status(500).send(error.message);
     }
   }
+  public async getStudentInfo(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+
+      const student = await Student.createQueryBuilder("student")
+        .leftJoinAndSelect("student.user", "user")
+        .leftJoinAndSelect("student.course", "course")
+        .where("student.id = :id", { id })
+        .getOne();
+      if (!student) {
+        return res.status(404).send("Student not found");
+      }
+      return res.status(200).send(student);
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
+  }
 }
 
 export { StudentController };

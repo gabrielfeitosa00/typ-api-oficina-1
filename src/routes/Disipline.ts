@@ -1,21 +1,21 @@
 import { Router } from "express";
-import { StudentController } from "../controller";
+import { DisiplineController } from "../controller";
 import { AuthMiddleware, RoleMiddleware } from "../middleware";
-export const routerStudent = Router();
-const controller = new StudentController();
+export const routerDisipline = Router();
+const controller = new DisiplineController();
 
 /**
  * Serviço pra login do user
  */
-routerStudent.post(
+routerDisipline.post(
   "/",
   AuthMiddleware.check(),
   RoleMiddleware.checkRole(["Admin"]),
   controller.store
 );
-routerStudent.get(
-  "/student-info/:id",
+routerDisipline.get(
+  "/:code",
   AuthMiddleware.check(),
   RoleMiddleware.checkRole(["Student"]),
-  controller.getStudentInfo
+  controller.getByCode
 );

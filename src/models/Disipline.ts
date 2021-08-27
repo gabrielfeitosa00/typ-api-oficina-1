@@ -9,7 +9,7 @@ import {
 
 import { Teacher } from "./";
 
-@Entity({ name: "displine" })
+@Entity({ name: "disipline" })
 class Disipline extends BaseEntity {
   @PrimaryGeneratedColumn("increment")
   id!: number;
@@ -22,10 +22,16 @@ class Disipline extends BaseEntity {
   @Column({ type: "text" })
   description!: string;
   @Column({ type: "int", name: "number_of_classes" })
-  numberOfClasses!: number;
+  number_of_classes!: number;
 
   @ManyToMany(() => Teacher, (teacher) => teacher.disipline)
   teacher?: Teacher[];
+
+  static async getByCode(code: string) {
+    return await this.createQueryBuilder("disipline")
+      .where("disipline.code = :code", { code })
+      .getOne();
+  }
 }
 
 export { Disipline };
