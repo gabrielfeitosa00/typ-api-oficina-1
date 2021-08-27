@@ -13,3 +13,9 @@ routerStudent.post(
   RoleMiddleware.checkRole(["Admin"]),
   controller.store
 );
+routerStudent.get(
+  "/student-info/:id",
+  AuthMiddleware.check(),
+  RoleMiddleware.checkRole(["Student"]),
+  controller.getStudentInfo
+);
