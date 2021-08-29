@@ -31,6 +31,26 @@ class Student extends BaseEntity {
   user!: User;
   @OneToMany(() => Grade, (grade) => grade.student)
   grade?: Grade[];
+
+  static async updateCoef(studentId: number) {
+    const student = await this.createQueryBuilder("student")
+      .leftJoinAndSelect(
+        "student.grade",
+        "grade",
+        "grade.situation IN ('Reproved','Approved')"
+      )
+      .where("student.id = :studentId", { studentId })
+      .getOneOrFail();
+    if (student.grade) {
+      student.coefficient =
+        student.grade
+          ?.map((item) => item.grade!)
+          .reduce((prev, curr) => prev + curr, 0) / student.grade?.length;
+
+      await student.save();
+    }
+    return student;
+  }
 }
 
 export { Student };

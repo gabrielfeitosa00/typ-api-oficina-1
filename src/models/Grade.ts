@@ -16,14 +16,16 @@ import { Disipline, Student } from "./";
 class Grade extends BaseEntity {
   @PrimaryGeneratedColumn("increment")
   id!: number;
-
-  @Column({ unique: true, type: "int" })
-  ra!: string;
-
-  @Column({ type: "varchar", nullable: true, default: null })
-  phone?: string | null;
-  @Column({ type: "decimal", precision: 5, scale: 2 })
-  coefficient?: number | null;
+  @Column({
+    type: "decimal",
+    precision: 5,
+    scale: 2,
+    nullable: true,
+    default: null,
+  })
+  grade?: number | null;
+  @Column({ type: "int", nullable: true, default: null })
+  absence?: number | null;
   @ManyToOne(() => Disipline, { cascade: true })
   @JoinColumn({ name: "disiplineId" })
   disipline!: Disipline;
@@ -32,6 +34,18 @@ class Grade extends BaseEntity {
   @ManyToOne(() => Student, (student) => student.grade, { cascade: true })
   @JoinColumn({ name: "studentId" })
   student!: Student;
+
+  static async getGradeByStudentAndDisipline(
+    studentId: number,
+    displineId: number
+  ) {
+    return await this.createQueryBuilder("grade")
+      .leftJoinAndSelect("grade.student", "student")
+      .leftJoinAndSelect("grade.disipline", "disipline")
+      .where("grade.studentId = :studentId", { studentId })
+      .andWhere("grade.displineId = :displineId", { displineId })
+      .getOne();
+  }
 
   static async checkIfGradeIsApprovedOrCoursing(
     studentId: number,
