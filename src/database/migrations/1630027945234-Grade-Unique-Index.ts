@@ -5,7 +5,7 @@ export class GradeUniqueIndex1630027945234 implements MigrationInterface {
     await queryRunner.createIndex(
       "grade",
       new TableIndex({
-        columnNames: ["studentId", "displineId"],
+        columnNames: ["studentId", "disiplineId"],
         isUnique: true,
         name: "unique_disipline_student",
       })
