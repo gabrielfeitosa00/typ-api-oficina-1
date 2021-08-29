@@ -2,7 +2,7 @@ import {
   BaseEntity,
   Column,
   Entity,
-  JoinColumn,
+  JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -22,9 +22,19 @@ class Teacher extends BaseEntity {
   @Column({ type: "varchar", unique: true })
   email!: string;
 
-  @ManyToMany(() => Disipline, (disipline) => disipline.teacher)
-  @JoinColumn({ name: "teacher_disipline" })
+  @ManyToMany(() => Disipline, (disipline) => disipline.teacher, {
+    cascade: true,
+  })
+  @JoinTable({ name: "teacher_disipline" })
   disipline?: Disipline[];
+
+  static async findPaginated(page: number) {
+    return await this.createQueryBuilder("teacher")
+      .leftJoinAndSelect("teacher.disipline", "disipline")
+      .skip((page - 1) * 6)
+      .take(6)
+      .getMany();
+  }
 }
 
 export { Teacher };
