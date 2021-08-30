@@ -14,13 +14,13 @@ routerGrade.post(
   controller.store
 );
 routerGrade.get(
-  "/past-grades",
+  "/past-grades/:studentId",
   AuthMiddleware.check(),
   RoleMiddleware.checkRole(["Student"]),
   controller.indexPastGrades
 );
 routerGrade.get(
-  "/current-grades",
+  "/current-grades/:studentId",
   AuthMiddleware.check(),
   RoleMiddleware.checkRole(["Student"]),
   controller.indexCurrentGrades

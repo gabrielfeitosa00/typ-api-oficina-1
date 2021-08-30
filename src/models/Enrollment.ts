@@ -16,8 +16,8 @@ class Enrollment extends BaseEntity {
 
   @Column({ type: "date" })
   end!: Date;
-  @CreateDateColumn({ type: "timestamp", name: "created_at" })
-  createdAt!: Date;
+  @CreateDateColumn({ type: "timestamp", name: "created_at", default: "now" })
+  created_at!: Date;
 }
 
 export { Enrollment };

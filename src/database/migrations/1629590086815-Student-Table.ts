@@ -28,8 +28,8 @@ export class StudentTable1629590086815 implements MigrationInterface {
           {
             name: "coefficient",
             type: "decimal(8,2)",
-            isNullable: true,
-            default: null,
+
+            default: 0,
           },
         ],
       })

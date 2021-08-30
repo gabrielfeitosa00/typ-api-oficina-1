@@ -7,7 +7,6 @@ import dayjs from "dayjs";
 class EnrollmentController {
   public async storeOrUpdate(req: Request, res: Response): Promise<Response> {
     try {
-      //TODO create or update method later
       const enrollmentPeriod: Enrollment = req.body;
       const oldEnrollmentPeriod = await Enrollment.findOne();
       let newEnrollmentPeriod;
@@ -18,7 +17,14 @@ class EnrollmentController {
       } else {
         newEnrollmentPeriod = Enrollment.create(enrollmentPeriod);
       }
-
+      const start = dayjs(new Date(enrollmentPeriod.start));
+      const end = dayjs(new Date(enrollmentPeriod.end));
+      if (
+        start.isAfter(dayjs(enrollmentPeriod.end)) ||
+        end.isBefore(dayjs(enrollmentPeriod.start))
+      ) {
+        return res.status(409).send("Invalid date combination");
+      }
       newEnrollmentPeriod.save();
       return res.status(200).send(newEnrollmentPeriod);
     } catch (error) {

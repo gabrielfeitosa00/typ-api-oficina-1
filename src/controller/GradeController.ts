@@ -71,6 +71,18 @@ class GradeController {
           .status(404)
           .send("This student isn't enrolled in this disipline");
       }
+
+      if (absence > enrollment.disipline.number_of_classes) {
+        return res
+          .status(409)
+          .send(
+            "The number of absences cant be more than the numer of classes"
+          );
+      }
+
+      if (grade > 10) {
+        return res.status(409).send("The grade cant be more than 10");
+      }
       enrollment.absence = absence;
       enrollment.grade = grade;
       let absenceProportion =

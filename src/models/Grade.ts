@@ -20,12 +20,11 @@ class Grade extends BaseEntity {
     type: "decimal",
     precision: 5,
     scale: 2,
-    nullable: true,
-    default: null,
+    default: 0,
   })
-  grade?: number | null;
-  @Column({ type: "int", nullable: true, default: null })
-  absence?: number | null;
+  grade!: number;
+  @Column({ type: "int", default: 0 })
+  absence!: number;
   @ManyToOne(() => Disipline, { cascade: true })
   @JoinColumn({ name: "disiplineId" })
   disipline!: Disipline;
@@ -37,39 +36,63 @@ class Grade extends BaseEntity {
 
   static async getGradeByStudentAndDisipline(
     studentId: number,
-    displineId: number
+    disiplineId: number
   ) {
     return await this.createQueryBuilder("grade")
       .leftJoinAndSelect("grade.student", "student")
       .leftJoinAndSelect("grade.disipline", "disipline")
       .where("grade.studentId = :studentId", { studentId })
-      .andWhere("grade.displineId = :displineId", { displineId })
+      .andWhere("grade.disiplineId = :disiplineId", { disiplineId })
       .getOne();
   }
 
   static async checkIfGradeIsApprovedOrCoursing(
     studentId: number,
-    displineId: number
+    disiplineId: number
   ) {
     return await this.createQueryBuilder("grade")
       .where("grade.studentId = :studentId", { studentId })
-      .andWhere("grade.displineId = :displineId", { displineId })
+      .andWhere("grade.disiplineId = :disiplineId", { disiplineId })
       .andWhere("grade.situation IN ('Coursing','Approved')")
       .getOne();
   }
   static async getCurrentGradesByStudent(studentId: number) {
     return await this.createQueryBuilder("grade")
-      .leftJoinAndSelect("grade.disipline", "disipline")
+      .select([
+        "grade.id",
+        "grade.grade as nota",
+        "grade.absence as faltas",
+        "grade.situation as situacao",
+        "disipline.id",
+        "disipline.name as nome",
+        "disipline.code as codigo",
+        "disipline.number_of_classes as total_aulas",
+
+        "(grade.absence/disipline.number_of_classes)*100 as frequencia",
+      ])
+      .leftJoin("grade.disipline", "disipline")
       .where("grade.studentId = :studentId", { studentId })
       .andWhere("grade.situation = 'Coursing'")
-      .getMany();
+      .getRawMany();
   }
   static async getPastGradesByStudent(studentId: number) {
     return await this.createQueryBuilder("grade")
-      .leftJoinAndSelect("grade.disipline", "disipline")
+      .select([
+        "grade.id",
+        "grade.grade as nota",
+        "grade.absence as faltas",
+        "grade.situation as situacao",
+        "disipline.id",
+        "disipline.name as nome",
+        "disipline.code as codigo",
+        "disipline.number_of_classes as total_aulas",
+
+        "(grade.absence/disipline.number_of_classes)*100 as frequencia",
+      ])
+      .leftJoin("grade.disipline", "disipline")
       .where("grade.studentId = :studentId", { studentId })
       .andWhere("grade.situation IN ('Reproved','Approved')")
-      .getMany();
+      .getRawMany();
   }
 }
 
