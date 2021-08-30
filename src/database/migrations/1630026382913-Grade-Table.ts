@@ -22,14 +22,13 @@ export class GradeTable1630026382913 implements MigrationInterface {
           {
             name: "grade",
             type: "decimal(8,2)",
-            isNullable: true,
-            default: null,
+
+            default: 0,
           },
           {
             name: "absence",
             type: "int",
-            isNullable: true,
-            default: null,
+            default: 0,
           },
           {
             name: "studentId",
