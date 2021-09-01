@@ -54,7 +54,7 @@ class Student extends BaseEntity {
         const newCoef = coefsum / Number(student.grade.length);
         console.log(newCoef);
         student.coefficient = newCoef;
-        await student.save();
+        await Student.update(student.id, { coefficient: newCoef });
       }
       return student;
     } catch (error) {

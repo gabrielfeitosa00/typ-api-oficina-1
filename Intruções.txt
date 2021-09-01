@@ -1,0 +1,8 @@
+
+Requisitos: Instalar o node e o gerenciador de pacotes yarn
+
+1º Instalação de dependencias: npm i ou yarn start
+
+2º Rodada das migrations: yarn typeorm migration:run
+
+3º Rodada da API: yarn start:dev 
