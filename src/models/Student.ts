@@ -21,7 +21,13 @@ class Student extends BaseEntity {
 
   @Column({ type: "varchar", nullable: true, default: null })
   phone?: string | null;
-  @Column({ type: "decimal", precision: 5, scale: 2, default: 0 })
+  @Column({
+    name: "coefficient",
+    type: "decimal",
+    precision: 8,
+    scale: 2,
+    default: 0,
+  })
   coefficient!: number;
   @ManyToOne(() => Course, (course) => course.student, { cascade: true })
   @JoinColumn()
@@ -53,7 +59,7 @@ class Student extends BaseEntity {
         }
         const newCoef = coefsum / Number(student.grade.length);
         console.log(newCoef);
-        student.coefficient = newCoef;
+
         await Student.update(student.id, { coefficient: newCoef });
       }
       return student;

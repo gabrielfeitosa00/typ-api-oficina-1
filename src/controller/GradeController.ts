@@ -92,8 +92,9 @@ class GradeController {
       } else {
         enrollment.situation = "Reproved";
       }
-      await Student.updateCoef(studentId);
       await enrollment.save();
+      await Student.updateCoef(studentId);
+
       return res.status(200).send(enrollment);
     } catch (error) {
       return res.status(500).send(error.message);
